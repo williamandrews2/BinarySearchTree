@@ -31,6 +31,60 @@ class Tree {
 
     return root;
   }
+
+  insert(value, root = this.root) {
+    if (root === null) {
+      return new Node(value);
+    }
+
+    if (value === root.data) {
+      return root;
+    }
+
+    if (value < root.data) {
+      root.left = this.insert(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.insert(value, root.right);
+    }
+
+    return root;
+  }
+
+  deleteItem(value, root = this.root) {
+    if (root === null) {
+      return root;
+    }
+
+    if (value < root.data) {
+      root.left = this.deleteItem(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.deleteItem(value, root.right);
+    } else {
+      // when/if we find a match
+      // node has zero children
+      if (root.left === null && root.right === null) {
+        return null;
+      }
+      // node has only a right child
+      if (root.left === null) {
+        return root.right;
+      }
+      // node has only a left child
+      if (root.right === null) {
+        return root.left;
+      }
+      // node has two children that are NOT null 
+      // set the new "root" to be the smallest node in the right subtree (the successor)
+      let tempNode = root.right;
+      while(tempNode.left !== null){
+        tempNode = tempNode.left;
+      }
+      root.data = tempNode.data;
+
+      // delete the successor from the right subtree since it has been reassigned to the root
+      root.right = this.deleteItem(tempNode.data, root.right);
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -48,4 +102,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const arr = [1, 2, 3, 4, 5];
 const tree = new Tree(arr);
-prettyPrint(tree.root);
+
+const test = [8, 3, 14, 1, 6, 4, 7];
+const testTree = new Tree(test);
+
+prettyPrint(testTree.root);
