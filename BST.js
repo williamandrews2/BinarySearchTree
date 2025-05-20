@@ -7,32 +7,30 @@ class Node {
 }
 
 class Tree {
-  constructor(array, root) {
-    this.array = array;
-    this.root = root;
+  constructor(values) {
+    this.values = values;
+    this.root = this.#buildTree(this.#sortArray(values));
   }
-}
 
-function buildTree(array) {
-  let sorted = arr.filter((item, index) => arr.indexOf(item) === index).sort();
-  let nodes = sorted.map((num) => new Node(num));
-  return balance(nodes);
-}
+  #sortArray(array) {
+    return [...new Set(array)].sort((a, b) => a - b);
+  }
 
-function balance(array) {
-  if (array.length === 0) return null;
-  if (array.length === 1) return array[0];
+  #buildTree(array) {
+    if (array.length === 0) return null;
+    if (array.length === 1) return new Node(array[0]);
 
-  let mid = Math.floor(array.length / 2);
-  let root = new Node(array[mid]);
+    let mid = Math.floor(array.length / 2);
+    let root = new Node(array[mid]);
 
-  let left = array.slice(0, mid);
-  let right = array.slice(mid + 1);
+    let left = array.slice(0, mid);
+    let right = array.slice(mid + 1);
 
-  root.left = balance(left);
-  root.right = balance(right);
+    root.left = this.#buildTree(left);
+    root.right = this.#buildTree(right);
 
-  return root;
+    return root;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -49,5 +47,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 const arr = [1, 2, 3, 4, 5];
-const root = buildTree(arr);
-prettyPrint(root);
+const tree = new Tree(arr);
+prettyPrint(tree.root);
