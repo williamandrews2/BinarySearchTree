@@ -73,16 +73,27 @@ class Tree {
       if (root.right === null) {
         return root.left;
       }
-      // node has two children that are NOT null 
+      // node has two children that are NOT null
       // set the new "root" to be the smallest node in the right subtree (the successor)
       let tempNode = root.right;
-      while(tempNode.left !== null){
+      while (tempNode.left !== null) {
         tempNode = tempNode.left;
       }
       root.data = tempNode.data;
 
       // delete the successor from the right subtree since it has been reassigned to the root
       root.right = this.deleteItem(tempNode.data, root.right);
+    }
+  }
+
+  find(value, root = this.root) {
+    if (root === null || root.data === value) {
+      return root;
+    }
+    if (value < root.data) {
+      return this.find(value, root.left);
+    } else if (value > root.data) {
+      return this.find(value, root.right);
     }
   }
 }
@@ -106,4 +117,5 @@ const tree = new Tree(arr);
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
-prettyPrint(testTree.root);
+// prettyPrint(testTree.root);
+console.log(testTree.find(79));
