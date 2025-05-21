@@ -56,9 +56,9 @@ class Tree {
     }
 
     if (value < root.data) {
-      root.left = this.deleteItem(value, root.left);
+      return this.deleteItem(value, root.left);
     } else if (value > root.data) {
-      root.right = this.deleteItem(value, root.right);
+      return this.deleteItem(value, root.right);
     } else {
       // when/if we find a match
       // node has zero children
@@ -76,6 +76,7 @@ class Tree {
       // node has two children that are NOT null
       // set the new "root" to be the smallest node in the right subtree (the successor)
       let tempNode = root.right;
+
       while (tempNode.left !== null) {
         tempNode = tempNode.left;
       }
@@ -117,5 +118,12 @@ const tree = new Tree(arr);
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
-// prettyPrint(testTree.root);
-console.log(testTree.find(79));
+prettyPrint(testTree.root);
+
+testTree.deleteItem(8);
+
+prettyPrint(testTree.root);
+
+testTree.insert(8);
+
+prettyPrint(testTree.root);
