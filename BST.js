@@ -142,6 +142,23 @@ class Tree {
 
     callback(result);
   }
+
+  inOrder(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    function inOrderRecursive(root, result = []) {
+      if (root) {
+        inOrderRecursive(root.left, result);
+        result.push(root.data);
+        inOrderRecursive(root.right, result);
+      }
+      return result;
+    }
+
+    callback(inOrderRecursive(this.root));
+  }
 }
 
 function printValues(values) {
@@ -165,4 +182,4 @@ const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
 // prettyPrint(testTree.root);
-testTree.levelOrder(printValues);
+testTree.inOrder(printValues);
