@@ -151,6 +151,26 @@ class Tree {
     return null;
   }
 
+  isBalanced() {
+    return this.isBalancedRecursive(this.root) > 0;
+  }
+
+  isBalancedRecursive(root) {
+    if (root === null) return 0;
+
+    const leftHeight = this.isBalancedRecursive(root.left);
+    const rightHeight = this.isBalancedRecursive(root.right);
+
+    if (
+      leftHeight === -1 ||
+      rightHeight === -1 ||
+      Math.abs(leftHeight - rightHeight) > 1
+    )
+      return -1;
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
   levelOrder(callback) {
     if (typeof callback !== "function") {
       throw new Error("A callback function is required");
@@ -248,7 +268,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
-console.log(testTree.depth(6)); // 0
-console.log(testTree.depth(3)); // 1
-console.log(testTree.depth(4)); // 2
-console.log(testTree.depth(60)); // null
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
+
+testTree.insert(9);
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
+
+testTree.insert(10);
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
