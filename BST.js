@@ -16,7 +16,7 @@ class Queue {
   }
 
   dequeue() {
-    return this.items.isEmpty() ? "Queue is empty!" : this.items.shift();
+    return this.items.isEmpty ? "Queue is empty!" : this.items.shift();
   }
 
   isEmpty() {
@@ -24,7 +24,7 @@ class Queue {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(values) {
     this.values = values;
     this.root = this.#buildTree(this.#sortArray(values));
@@ -274,6 +274,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
-const test = [8, 3, 14, 1, 6, 4, 7];
-const testTree = new Tree(test);
