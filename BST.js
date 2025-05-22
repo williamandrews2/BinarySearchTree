@@ -6,6 +6,24 @@ class Node {
   }
 }
 
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(value) {
+    this.items.push(value);
+  }
+
+  dequeue() {
+    return this.items.isEmpty ? "Queue is empty!" : this.items.shift();
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
 class Tree {
   constructor(values) {
     this.values = values;
@@ -51,6 +69,7 @@ class Tree {
   }
 
   deleteItem(value, root = this.root) {
+    // base case
     if (root === null) {
       return root;
     }
@@ -98,6 +117,35 @@ class Tree {
       return this.find(value, root.right);
     }
   }
+
+  levelOrder(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    if (this.root === null) return null;
+
+    let q = new Queue();
+    let result = [];
+    q.enqueue(this.root);
+
+    while (!q.isEmpty()) {
+      let node = q.dequeue();
+      result.push(node.data);
+      if (node.left !== null) {
+        q.enqueue(node.left);
+      }
+      if (node.right !== null) {
+        q.enqueue(node.right);
+      }
+    }
+
+    callback(result);
+  }
+}
+
+function printValues(values) {
+  console.log(values); // print the array of values
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -116,4 +164,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
-prettyPrint(testTree.root);
+// prettyPrint(testTree.root);
+testTree.levelOrder(printValues);
