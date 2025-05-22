@@ -16,7 +16,7 @@ class Queue {
   }
 
   dequeue() {
-    return this.items.isEmpty ? "Queue is empty!" : this.items.shift();
+    return this.items.isEmpty() ? "Queue is empty!" : this.items.shift();
   }
 
   isEmpty() {
@@ -171,6 +171,16 @@ class Tree {
     return Math.max(leftHeight, rightHeight) + 1;
   }
 
+  rebalance() {
+    let sorted = [];
+    // pass in helper function as the callback variable for the levelOrder function
+    this.inOrder((array) => {
+      sorted = this.#sortArray(array);
+    });
+    // rebuild the tree by assigning root
+    this.root = this.#buildTree(sorted);
+  }
+
   levelOrder(callback) {
     if (typeof callback !== "function") {
       throw new Error("A callback function is required");
@@ -267,14 +277,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
-
-prettyPrint(testTree.root);
-console.log(testTree.isBalanced());
-
-testTree.insert(9);
-prettyPrint(testTree.root);
-console.log(testTree.isBalanced());
-
-testTree.insert(10);
-prettyPrint(testTree.root);
-console.log(testTree.isBalanced());
