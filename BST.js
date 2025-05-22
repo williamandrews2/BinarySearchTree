@@ -118,6 +118,22 @@ class Tree {
     }
   }
 
+  height(value) {
+    let node = this.find(value);
+    if (!node) return -1; // node is not in the tree
+
+    function calculateSubtreeHeight(node) {
+      if (!node) return -1;
+      const leftHeight = calculateSubtreeHeight(node.left);
+      const rightHeight = calculateSubtreeHeight(node.right);
+      const result = Math.max(leftHeight, rightHeight) + 1;
+      return result;
+    }
+
+    const height = calculateSubtreeHeight(node);
+    return height;
+  }
+
   levelOrder(callback) {
     if (typeof callback !== "function") {
       throw new Error("A callback function is required");
@@ -216,4 +232,6 @@ const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
 // prettyPrint(testTree.root);
-testTree.postOrder(printValues);
+console.log(testTree.height(6)); // 2
+console.log(testTree.height(8)); // 1
+console.log(testTree.height(4)); // 0
