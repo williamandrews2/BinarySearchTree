@@ -159,6 +159,40 @@ class Tree {
 
     callback(inOrderRecursive(this.root));
   }
+
+  preOrder(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    function preOrderRecursive(root, result = []) {
+      if (root) {
+        result.push(root.data);
+        preOrderRecursive(root.left, result);
+        preOrderRecursive(root.right, result);
+      }
+      return result;
+    }
+
+    callback(preOrderRecursive(this.root));
+  }
+
+  postOrder(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    function postOrderRecursive(root, result = []) {
+      if (root) {
+        postOrderRecursive(root.left, result);
+        postOrderRecursive(root.right, result);
+        result.push(root.data);
+      }
+      return result;
+    }
+
+    callback(postOrderRecursive(this.root));
+  }
 }
 
 function printValues(values) {
@@ -182,4 +216,4 @@ const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
 // prettyPrint(testTree.root);
-testTree.inOrder(printValues);
+testTree.postOrder(printValues);
