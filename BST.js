@@ -56,9 +56,9 @@ class Tree {
     }
 
     if (value < root.data) {
-      return this.deleteItem(value, root.left);
+      root.left = this.deleteItem(value, root.left);
     } else if (value > root.data) {
-      return this.deleteItem(value, root.right);
+      root.right = this.deleteItem(value, root.right);
     } else {
       // when/if we find a match
       // node has zero children
@@ -85,6 +85,7 @@ class Tree {
       // delete the successor from the right subtree since it has been reassigned to the root
       root.right = this.deleteItem(tempNode.data, root.right);
     }
+    return root;
   }
 
   find(value, root = this.root) {
@@ -112,18 +113,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const arr = [1, 2, 3, 4, 5];
-const tree = new Tree(arr);
-
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
-
-prettyPrint(testTree.root);
-
-testTree.deleteItem(8);
-
-prettyPrint(testTree.root);
-
-testTree.insert(8);
 
 prettyPrint(testTree.root);
