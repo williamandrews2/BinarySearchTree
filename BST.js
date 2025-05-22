@@ -120,7 +120,7 @@ class Tree {
 
   height(value) {
     let node = this.find(value);
-    if (!node) return -1; // node is not in the tree
+    if (!node) return null; // node is not in the tree
 
     function calculateSubtreeHeight(node) {
       if (!node) return -1;
@@ -132,6 +132,23 @@ class Tree {
 
     const height = calculateSubtreeHeight(node);
     return height;
+  }
+
+  depth(value, root = this.root, count = 0) {
+    if (!root) {
+      return null;
+    }
+    if (root.data === value) {
+      return count;
+    }
+    if (value < root.data) {
+      count++;
+      return this.depth(value, root.left, count);
+    } else if (value > root.data) {
+      count++;
+      return this.depth(value, root.right, count);
+    }
+    return null;
   }
 
   levelOrder(callback) {
@@ -231,7 +248,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const test = [8, 3, 14, 1, 6, 4, 7];
 const testTree = new Tree(test);
 
-// prettyPrint(testTree.root);
-console.log(testTree.height(6)); // 2
-console.log(testTree.height(8)); // 1
-console.log(testTree.height(4)); // 0
+console.log(testTree.depth(6)); // 0
+console.log(testTree.depth(3)); // 1
+console.log(testTree.depth(4)); // 2
+console.log(testTree.depth(60)); // null
